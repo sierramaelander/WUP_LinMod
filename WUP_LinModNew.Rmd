@@ -33,7 +33,20 @@ data <- read.csv(file="https://onlinestatbook.com/case_studies_rvls/physical_str
 
 ## Model 1 SIM~ARMS
 
+
+##Methods 
+
+all variables are numerical so we use num~num   
+
+### Descriptive results 
+
 ### scatterplot
+
+```{r}
+plot(ARM~SIMS,data=data)
+```
+
+The plot shows that the arm strength goes up and so does sims. 
 
 ### Numerical results
 
