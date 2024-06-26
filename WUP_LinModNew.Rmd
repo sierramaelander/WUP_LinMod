@@ -43,22 +43,13 @@ all variables are numerical so we use num~num
 ### scatterplot
 
 ```{r}
-plot(ARM~SIMS,data=data)
-abline(model.1, col='red')
+plot(SIMS~ARM,data=data)
 ```
 
-The plot shows that the arm strength goes up and so does sims. 
-
-### Numerical results
-
-```{r}
-cor(ARM~SIMS,data=data)
-```
-the correlation shows a positive number which means there is a positive correlation
+The plot shows that the arm strength goes up and so does sims.   
 
 ### Inferential  (Build model.1)
 
- 
 ```{r}
 model.1 <- lm(SIMS~ARM,data=data)
 summary.lm(model.1)
@@ -66,14 +57,54 @@ summary.lm(model.1)
 
 
 
+#### scatterplot with model fit
+
+
+
+
+```{r}
+plot(SIMS~ARM,data=data)
+abline(model.1, col='red')
+```
+
+
+The p-values for the intercept and slope are  0.00000000000000022   
+
+
+
+
+### Numerical results
+
+
+
+```{r}
+cor(ARM~SIMS,data=data)
+```
+the correlation shows a positive number which means there is a positive correlation
+
+
+ 
+
+
+
+
 
 #### Predict at target point
 
+```{r}
+newdata = data.frame(ARM = 88, GRIP = 94)
+predict(model.1, newdata, interval='pred')
+```
 
-#### scatterplot with model fit
+
+The SIMS prediction for ARM=88 is 0.71, the prediction interval is -1.73, 3.14)  
   
 
 ## Model 2 SIM~GRIP
+
+
+
+
 
 ### Now add in scatterplot
 
