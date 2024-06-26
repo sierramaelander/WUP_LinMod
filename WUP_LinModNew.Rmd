@@ -44,14 +44,28 @@ all variables are numerical so we use num~num
 
 ```{r}
 plot(ARM~SIMS,data=data)
+abline(model.1, col='red')
 ```
 
 The plot shows that the arm strength goes up and so does sims. 
 
 ### Numerical results
 
+```{r}
+cor(ARM~SIMS,data=data)
+```
+the correlation shows a positive number which means there is a positive correlation
 
 ### Inferential  (Build model.1)
+
+ 
+```{r}
+model.1 <- lm(SIMS~ARM,data=data)
+summary.lm(model.1)
+```
+
+
+
 
 #### Predict at target point
 
