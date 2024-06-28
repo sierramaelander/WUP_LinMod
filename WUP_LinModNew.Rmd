@@ -60,8 +60,6 @@ summary.lm(model.1)
 #### scatterplot with model fit
 
 
-
-
 ```{r}
 plot(SIMS~ARM,data=data)
 abline(model.1, col='red')
@@ -71,21 +69,14 @@ abline(model.1, col='red')
 The p-values for the intercept and slope are  0.00000000000000022   
 
 
-
-
 ### Numerical results
 
 
 
 ```{r}
-cor(ARM~SIMS,data=data)
+cor(SIMS~ARM,data=data)
 ```
 the correlation shows a positive number which means there is a positive correlation
-
-
- 
-
-
 
 
 
@@ -99,43 +90,150 @@ predict(model.1, newdata, interval='pred')
 
 The SIMS prediction for ARM=88 is 0.71, the prediction interval is -1.73, 3.14)  
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 ## Model 2 SIM~GRIP
 
+##Methods 
 
+All variables are numerical so we use file num~num
 
 
 
 ### Now add in scatterplot
 
+```{r}
+plot(SIMS~GRIP,data=data)
+```
 
-### Numerical results 
+
+The graph shows that as grip goes up so does sims 
 
 
-### Inferential  (Build model.2)
-  
 
 #### predict model.2 at target point
 
-#### now add the model fit to our plot for model.2
-  
+```{r}
+model.2 <- lm(SIMS~GRIP,data=data)
+summary.lm(model.2)
+```
 
+
+
+### Inferential  (Build model.2)
+
+```{r}
+plot(SIMS~GRIP,data=data)
+abline(model.2, col='red')
+```
+
+
+The p-values for the intercept and slope are 0.00000000000000022  
+
+
+
+
+### Numerical results 
+
+```{r}
+cor(GRIP~SIMS,data=data)
+```
+
+The correlation is positive because it shows a positive number
+
+
+
+## Predict at targer point
+
+
+```{r}
+newdata = data.frame(SIMS = 95, GRIP = 94)
+predict(model.2, newdata, interval='pred')
+```
+
+
+The SIMS prediction for GRIP=94 is 0.54, the prediction interval is -3.10,2.04)  
+  
 
 ## Model 3 SIM~ARM+GRIP
 
+prediction interval of SIMS Given a value of 94 for GRIP and 88 for ARM
+
+both variables are numerical so we use helper file num~num
+
+
 ### Numerical results (cor)
 
-`
+```{r}
+df = data.frame(SIMS=data$SIMS, GRIP=data$GRIP, ARM=data$ARM)
+cor(df)
+```
+
+correlation matrix shows that SIMS correlates with GRIP and ARM, and GRIP correlates with SIMS
   
 ### Inferential  (Build 2-dimentional model.3)
+```{r}
+model.3 = lm(SIMS~ ARM + GRIP, data=data)
+summary.lm(model.3)
+```
+
+p-value from the F-statistic is  0.00000000000000022 this means that the data set fits the model
+
+
+p-vales for the  parameters: intercept, coefficient of ARM, and Coefficient of Grip are  0.00000000000000022, .00000000150, .00000499
 
 #### predict model.3 at target point
-  
+  prediction interval of SIMS given value of 94 for GRIP and 88 for ARM
+
+
+```{r}
+newdata= data.frame(GRIP=94, ARM=88)
+predSIMS = predict(model.3, newdata, interval = 'pred')
+print(predSIMS)
+```
+
+
+The predicted SIMS score for GRIP=94, ARM=88 is 0.150 
+
+,
 
 ## Comparing nested models ANOVA Test
 
 ### Model.1 vs Model.3
+
+```{r}
+anova(model.1,model.3)
+```
+
+the anvoa shows that there is a difference on the models. the p-value is 0.000004. The RSS in model 2 is 188 which is smaller than model 1 which is 217. Therefore SIMS~ARM+GRIP is the better model because model 1 is SIMS ~ ARM only. 
+
+
+
 ### Model.2 vs Model.3
 
-## Informally compare Model.1 with model.2
+```{r}
+anova(model.2, model.3)
+```
 
+The anova shows that model 2 (1) SIMS~GRIP has a RSS of 243 and Model 3 SIMS~ARM+GRIP(2) has a RSS of 188  this shows that model 3 is the better model of the two and The p-value is .000005. 
+
+
+## Informally compare Model.1 with model.2
+   
+```{r}
+summary.lm(model.1)
+summary.lm(model.2)
+```
+   
+Model 1 sim~arm is better than model 2 sims~grip because is has a smaller residual standard error (1.295, 1.226)
+   
+   
+   
